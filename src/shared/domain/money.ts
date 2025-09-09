@@ -1,6 +1,3 @@
-import { DomainException } from "./exceptions/domain.exception";
-
-
 export class Money{
   constructor(
     private readonly amount: number,

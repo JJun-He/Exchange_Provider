@@ -1,5 +1,3 @@
-import { DomainException } from "./exceptions/domain.exception";
-
 export type Exchange = 'binance' | 'okx' | 'bithumb';
 
 export class Symbol {
