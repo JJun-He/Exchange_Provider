@@ -64,7 +64,7 @@ export abstract class BaseProvider implements ExtendedPriceProvider{
                 exchange: this.exchange,
                 baseUrl: this.baseUrl,
                 endpoint: endpoint,
-                fullUrl: `${this.baseUrl}${endpoint}`, // 백틱 사용
+                fullUrl: `${this.baseUrl}${endpoint}`, 
                 params,
                 httpStatus: error.response?.status,
                 httpStatusText: error.response?.statusText,
