@@ -20,7 +20,7 @@ export class BithumbProvider extends BaseProvider{
         const exchangeSymbol = symbolObj.toExchangeFormat('bithumb');
 
         const data = await this.fetchData<BithumbResponse>(
-            '/public/ticker/${exchangeSymbol}'
+            `/public/ticker/${exchangeSymbol}`
         );
 
         if(data.status != '0000'){
@@ -28,6 +28,6 @@ export class BithumbProvider extends BaseProvider{
         }
 
         const krwPrice = parseFloat(data.data.closing_price);
-        return krwPrice / this.usdKrwRate; // KRW -> USD 환산
+        return krwPrice / this.usdKrwRate; // KRW -> USD
     }
 }

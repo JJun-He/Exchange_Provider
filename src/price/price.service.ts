@@ -21,7 +21,7 @@ export class PriceService{
             case 'binance': return this.binanceProvider;
             case 'okx': return this.okxProvider;
             case 'bithumb': return this.bithumbProvider;
-            default: throw new Error('Unsupported exchange: ${exchange}');
+            default: throw new Error(`Unsupported exchange: ${exchange}`);
         }
     }
 }

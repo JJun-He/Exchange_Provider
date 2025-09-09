@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from "@nestjs/common";
+import { Controller, Get, HttpException, HttpStatus, Param } from "@nestjs/common";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { PriceService } from "./price.service";
 import { Exchange } from "src/shared/domain/symbol";
@@ -16,12 +16,26 @@ export class PriceController{
         @Param('exchange') exchange: Exchange,
         @Param('symbol') symbol: string,
     ){
-        const price = await this.priceService.getPrice(exchange, symbol);
-        return {
-            exchange,
-            symbol: symbol.toUpperCase(),
-            price,
-            timestamp: new Date().toISOString()
-        };
+        try{
+            const price = await this.priceService.getPrice(exchange, symbol);
+            return {
+                exchange,
+                symbol: symbol.toUpperCase(),
+                price,
+                timestamp: new Date().toISOString()
+            };
+        }catch(error){
+            if(error.message.includes('상장 코인이 아닙니다')){
+                throw new HttpException(
+                    'Symbol ${symbol} is not listed on ${exchange}',
+                    HttpStatus.NOT_FOUND
+                );
+            }
+            throw new HttpException(
+                'Failed to get price: ${error.message}',
+                HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
+        
     }
 }
