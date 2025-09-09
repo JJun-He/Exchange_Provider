@@ -9,7 +9,7 @@ interface BinanceResponse{
 }
 
 @Injectable()
-export class BinaceProvider extends BaseProvider{
+export class BinanceProvider extends BaseProvider{
     constructor(httpService: HttpService){
         super(httpService, 'http://api.binance.com', 'binance');
     }

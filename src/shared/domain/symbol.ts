@@ -23,6 +23,6 @@ export class Symbol {
 
   // 유효성 검사
   private isValid(value: string): boolean {
-    return /^[A-Z]{2,10}(USDT|BTC|ETH)$/i.test(value);
-  }
+  return /^[A-Z]{2,10}(_)?(USDT|BTC|ETH|KRW)$/i.test(value);
+}
 }
