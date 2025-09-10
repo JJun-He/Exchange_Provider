@@ -16,9 +16,9 @@ export class BithumbProvider extends BaseProvider{
     }
 
     async getPrice(symbol: string): Promise<number>{
-        const symbolObj = this.createSymbol(symbol);
-        const exchangeSymbol = symbolObj.toExchangeFormat('bithumb');
 
+        const pair = this.createPair(symbol);
+        const exchangeSymbol = pair.toExchangeSymbol('bithumb'); // BTCUSDT → BTC_KRW 자동
         const data = await this.fetchData<BithumbResponse>(
             `/public/ticker/${exchangeSymbol}`
         );

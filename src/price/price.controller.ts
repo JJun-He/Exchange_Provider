@@ -1,9 +1,9 @@
 import { Controller, Get, HttpException, HttpStatus, Param } from "@nestjs/common";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { PriceService } from "./price.service";
-import { Exchange } from "src/shared/domain/symbol";
 import { symbol } from "joi";
 import { timestamp } from "rxjs";
+import { Exchange } from "src/shared/domain/pair";
 
 @ApiTags('Price')
 @Controller('price')

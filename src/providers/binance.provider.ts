@@ -11,15 +11,14 @@ interface BinanceResponse{
 @Injectable()
 export class BinanceProvider extends BaseProvider{
     constructor(httpService: HttpService){
-        super(httpService, 'http://api.binance.com', 'binance');
+        super(httpService, 'https://api.binance.com', 'binance');
     }
 
     async getPrice(symbol: string): Promise<number>{
-        const symbolObj = this.createSymbol(symbol);
-        const exchangeSymbol = symbolObj.toExchangeFormat('binance');
-
+        const pair = this.createPair(symbol);
+        const exchangeSymbol = pair.toExchangeSymbol('binance');
         const data = await this.fetchData<BinanceResponse>(
-            'api/v3/ticker/price',
+            '/api/v3/ticker/price',
             {symbol: exchangeSymbol}
         );
 

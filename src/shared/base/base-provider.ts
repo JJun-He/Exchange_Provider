@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import {HttpService} from '@nestjs/axios';
 import { ExtendedPriceProvider } from "../interfaces/price-provider.interface";
-import { Exchange, Symbol } from "../domain/symbol";
 import { firstValueFrom } from "rxjs";
+import { Exchange, Pair } from "../domain/pair";
 
 
 
@@ -81,8 +81,8 @@ export abstract class BaseProvider implements ExtendedPriceProvider{
         }
     }
 
-    protected createSymbol(symbolStr: string): Symbol {
-        return new Symbol(symbolStr);
+    protected createPair(symbol: string){
+        return Pair.parse(symbol);
     }
 
     // 거래소별 ping 엔드포인트

@@ -14,13 +14,11 @@ export class OkxProvider extends BaseProvider{
     }
 
     async getPrice(symbol: string): Promise<number>{
-        const symbolObj = this.createSymbol(symbol);
-        const exchangeSymbol = symbolObj.toExchangeFormat('okx');
-
+        const pair = this.createPair(symbol);
+        const exchangeSymbol = pair.toExchangeSymbol('okx');
         const data = await this.fetchData<OkxResponse>(
-            '/api/v5/market/ticker',
-            {instId: exchangeSymbol}
-        );
+            '/api/v5/market/ticker', { instId: exchangeSymbol }
+        ); 
 
         if(data.code != '0' || !data.data?.[0]){
             throw new Error('OKX API returned invalid data');

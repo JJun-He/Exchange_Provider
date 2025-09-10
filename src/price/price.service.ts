@@ -1,7 +1,7 @@
 import { BadRequestException, Inject, Injectable } from "@nestjs/common";
-import { Exchange } from "src/shared/domain/symbol";
 import { PriceProvider } from "src/shared/interfaces/price-provider.interface";
 import { PRICE_PROVIDER_MAP } from "./token";
+import { Exchange } from "src/shared/domain/pair";
 
 @Injectable()
 export class PriceService{
