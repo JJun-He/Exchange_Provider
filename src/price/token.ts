@@ -1,0 +1,1 @@
+export const PRICE_PROVIDER_MAP = 'PRICE_PROVIDER_MAP';
