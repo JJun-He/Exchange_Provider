@@ -4,9 +4,8 @@ import { Exchange } from 'src/entities/exchange.entity';
 import { PortfolioBalance } from 'src/entities/portfolio-balance.entity';
 import { PortfolioCredential } from 'src/entities/portfolio-credential.entity';
 import { Token } from 'src/entities/token.entity';
-import { BinanceProvider } from 'src/providers/binance.provider';
-import { BithumbProvider } from 'src/providers/bithumb.provider';
-import { OkxProvider } from 'src/providers/okx.provider';
+import { ExchangeType } from 'src/shared/domain/pair';
+import { ProviderFactory } from 'src/shared/factory/provider.factory';
 import { AccountBalance } from 'src/shared/interfaces/account-balance.interface';
 import { Repository } from 'typeorm';
 
@@ -23,9 +22,7 @@ export class BalanceService {
     private readonly exchangeRepo: Repository<Exchange>,
     @InjectRepository(Token)
     private readonly tokenRepo: Repository<Token>,
-    private readonly binanceProvider: BinanceProvider,
-    private readonly bithumbProvider: BithumbProvider,
-    private readonly okxProvider: OkxProvider,
+    private readonly providerFactory: ProviderFactory,
   ) {}
 
   // 포트폴리오의 실시간 잔고 조회
@@ -77,27 +74,19 @@ export class BalanceService {
       throw new Error(`Exchange not found: ${credential.exchangeId}`);
     }
 
+    const exchangeEnum = exchange.name.toLowerCase() as ExchangeType;
+
+    const provider = this.providerFactory.createExchangeProvider(exchangeEnum);
+
     // API 키 설정
     const apiKey = credential.encryptedApiKey; // 복호화 로직 필요
     const secretKey = credential.encryptedSecretKey; // 복호화 로직 필요
     const dataKey = credential.encryptedDataKey; // OKX용
 
-    switch (exchange.name.toLowerCase()) {
-      case 'binance':
-        this.binanceProvider.setCredentials(apiKey, secretKey);
-        return await this.binanceProvider.getAccountBalances();
+    provider.setCredentials(apiKey, secretKey, dataKey);
 
-      case 'bithumb':
-        this.bithumbProvider.setCredentials(apiKey, secretKey);
-        return await this.bithumbProvider.getAccountBalances();
-
-      case 'okx':
-        this.okxProvider.setCredentials(apiKey, secretKey, dataKey);
-        return await this.okxProvider.getAccountBalances();
-
-      default:
-        throw new Error(`Unsupported exchanges: ${exchange.name}`);
-    }
+    // 잔고 조회
+    return await provider.getAccountBalances();
   }
 
   // PortfolioBalance 업데이트

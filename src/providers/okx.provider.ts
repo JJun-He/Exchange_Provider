@@ -1,7 +1,7 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { BaseProvider } from 'src/shared/base/base-provider';
-import { Exchange } from 'src/shared/domain/pair';
+import { ExchangeType } from 'src/shared/domain/pair';
 import * as crypto from 'crypto';
 import { AccountBalance } from 'src/shared/interfaces/account-balance.interface';
 
@@ -22,7 +22,7 @@ export class OkxProvider extends BaseProvider {
     secretKey?: string,
     passphrase?: string,
   ) {
-    super(httpService, 'https://www.okx.com', Exchange.OKX);
+    super(httpService, 'https://www.okx.com', ExchangeType.OKX);
     this.apiKey = apiKey || '';
     this.secretKey = secretKey || '';
     this.passphrase = passphrase || '';

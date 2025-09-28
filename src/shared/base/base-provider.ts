@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { ExtendedPriceProvider } from '../interfaces/price-provider.interface';
 import { firstValueFrom } from 'rxjs';
-import { Exchange, Pair } from '../domain/pair';
+import { ExchangeType, Pair } from '../domain/pair';
 import { AccountBalance } from '../interfaces/account-balance.interface';
 
 @Injectable()
@@ -10,7 +10,7 @@ export abstract class BaseProvider implements ExtendedPriceProvider {
   constructor(
     protected readonly httpService: HttpService,
     protected readonly baseUrl: string,
-    protected readonly exchange: Exchange,
+    protected readonly exchange: ExchangeType,
     protected readonly apiKey: string = '',
     protected readonly secretKey: string = '',
   ) {}
@@ -90,11 +90,11 @@ export abstract class BaseProvider implements ExtendedPriceProvider {
   // 거래소별 ping 엔드포인트
   private getPingEndpoint(): string {
     switch (this.exchange) {
-      case Exchange.BINANCE:
+      case ExchangeType.BINANCE:
         return '/api/v3/ping';
-      case Exchange.OKX:
+      case ExchangeType.OKX:
         return '/api/v5/public/time';
-      case Exchange.BITHUMB:
+      case ExchangeType.BITHUMB:
         return '/public/ticker/BTC_KRW';
       default:
         return '/ping';

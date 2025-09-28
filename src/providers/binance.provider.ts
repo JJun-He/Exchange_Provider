@@ -1,7 +1,7 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { BaseProvider } from 'src/shared/base/base-provider';
-import { Exchange } from 'src/shared/domain/pair';
+import { ExchangeType } from 'src/shared/domain/pair';
 import * as crypto from 'crypto';
 import { AccountBalance } from 'src/shared/interfaces/account-balance.interface';
 
@@ -16,7 +16,7 @@ export class BinanceProvider extends BaseProvider {
   protected secretKey: string = '';
 
   constructor(httpService: HttpService, apiKey?: string, secretKey?: string) {
-    super(httpService, 'https://api.binance.com', Exchange.BINANCE);
+    super(httpService, 'https://api.binance.com', ExchangeType.BINANCE);
     this.apiKey = apiKey || '';
     this.secretKey = secretKey || '';
   }

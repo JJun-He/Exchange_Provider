@@ -7,9 +7,7 @@ import { PortfolioCredential } from 'src/entities/portfolio-credential.entity';
 import { Token } from 'src/entities/token.entity';
 import { BalanceController } from './balance.controller';
 import { BalanceService } from './balance.service';
-import { BinanceProvider } from 'src/providers/binance.provider';
-import { BithumbProvider } from 'src/providers/bithumb.provider';
-import { OkxProvider } from 'src/providers/okx.provider';
+import { ProviderFactory } from 'src/shared/factory/provider.factory';
 
 @Module({
   imports: [
@@ -22,7 +20,7 @@ import { OkxProvider } from 'src/providers/okx.provider';
     HttpModule,
   ],
   controllers: [BalanceController],
-  providers: [BalanceService, BinanceProvider, BithumbProvider, OkxProvider],
+  providers: [BalanceService, ProviderFactory],
   exports: [BalanceService],
 })
 export class BalanceModule {}
